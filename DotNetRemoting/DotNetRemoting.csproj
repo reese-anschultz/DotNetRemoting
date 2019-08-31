@@ -45,10 +45,20 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerController.cs" />
+    <Compile Include="Server\ServerService.cs" />
+    <Compile Include="ServiceController\DefaultServiceControlVisitor.cs" />
+    <Compile Include="ServiceController\IServiceControl.cs" />
+    <Compile Include="ServiceController\IServiceControlVisitor.cs" />
+    <Compile Include="ServiceController\ServiceController.cs" />
+    <Compile Include="ServiceController\ServiceControlStart.cs" />
+    <Compile Include="ServiceController\ServiceControlStop.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Client\" />
+    <Folder Include="Shared\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

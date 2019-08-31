@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DotNetRemoting.Server;
+using System;
 using System.Threading;
+using DotNetRemoting.ServiceController;
 
 namespace DotNetRemoting
 {
@@ -10,13 +12,15 @@ namespace DotNetRemoting
             var serverAppDomain = AppDomain.CreateDomain("server");
             try
             {
-                var serverController = serverAppDomain.CreateInstanceAndUnwrap(typeof(ServerController).Assembly.FullName, typeof(ServerController).Namespace + "." + typeof(ServerController).Name) as ServerController;
+                Console.WriteLine("About to load server");
+                var serverServiceType = typeof(ServiceController<ServerService>);
+                var serverController = serverAppDomain.CreateInstanceAndUnwrap(serverServiceType.Assembly.FullName, serverServiceType.FullName ?? throw new InvalidOperationException()) as ServiceController<ServerService>;
                 Console.WriteLine("About to start server");
                 serverController?.Start();
                 try
                 {
                     Console.WriteLine("About to sleep");
-                    Thread.Sleep(10 * 1000);
+                    Thread.Sleep(5 * 1000);
                 }
                 finally
                 {
