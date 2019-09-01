@@ -13,7 +13,7 @@ namespace DotNetRemoting.ServiceController
         public ServiceController()
         {
             _serviceControlVisitor = new TServiceControlVisitor();
-            _thread = new Thread(ServiceThreadMain);
+            _thread = new Thread(ServiceThreadMain) {Name = AppDomain.CurrentDomain.FriendlyName + " service"};
         }
 
         public void Start(string[] args = null)

@@ -1,7 +1,7 @@
-﻿using DotNetRemoting.Server;
-using System;
-using System.Threading;
+﻿using DotNetRemoting.Client;
+using DotNetRemoting.Server;
 using DotNetRemoting.ServiceController;
+using System;
 
 namespace DotNetRemoting
 {
@@ -19,8 +19,27 @@ namespace DotNetRemoting
                 serverController?.Start();
                 try
                 {
-                    Console.WriteLine("About to sleep");
-                    Thread.Sleep(5 * 1000);
+                    var clientAppDomain = AppDomain.CreateDomain("client");
+                    try
+                    {
+                        var clientServiceType = typeof(ServiceController<ClientService>);
+                        var clientController = clientAppDomain.CreateInstanceAndUnwrap(clientServiceType.Assembly.FullName, clientServiceType.FullName ?? throw new InvalidOperationException()) as ServiceController<ClientService>;
+                        Console.WriteLine("About to start client");
+                        clientController?.Start();
+                        try
+                        {
+                            // Nothing really to do here
+                        }
+                        finally
+                        {
+                            Console.WriteLine("About to join client");
+                            clientController?.Join();
+                        }
+                    }
+                    finally
+                    {
+                        AppDomain.Unload(clientAppDomain);
+                    }
                 }
                 finally
                 {
