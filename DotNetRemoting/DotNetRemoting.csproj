@@ -53,6 +53,8 @@
     <Compile Include="ServiceController\ServiceController.cs" />
     <Compile Include="ServiceController\ServiceControlStart.cs" />
     <Compile Include="ServiceController\ServiceControlStop.cs" />
+    <Compile Include="Shared\IRemoteObject.cs" />
+    <Compile Include="Shared\RemotingObject2.cs" />
     <Compile Include="Shared\RemotingObject.cs" />
   </ItemGroup>
   <ItemGroup>
