@@ -9,10 +9,10 @@ namespace DotNetRemoting.Client
 {
     public class ClientService : DefaultServiceControlVisitor
     {
-        private readonly ManualResetEvent _stopEvent = new ManualResetEvent(false);
+        private static readonly ManualResetEvent StopEvent = new ManualResetEvent(false);
         public override void Visit(ServiceControlStart serviceControlStart)
         {
-            _stopEvent.Reset();
+            StopEvent.Reset();
             ClientMain(serviceControlStart.Args);
         }
 
@@ -24,6 +24,13 @@ namespace DotNetRemoting.Client
             Console.WriteLine($"Remoting object text = {remotingObject.Text}");
             var remotingObject2 = remotingObject.OtherRemotingObject;
             Console.WriteLine($"Remoting object 2 text = {remotingObject2.Text}");
+            if (!(remotingObject2 is MarshalByRefObject objectToSponsor))
+                throw new InvalidOperationException("Object is not MarshalByRefObject");
+
+            var sponsor = new ClientSideSponsor(objectToSponsor);
+            sponsor.Register(new TimeSpan(0, 0, 0, 0, 200));  // Register with lifetime of 2 seconds
+            // Wait a while. Sponsor should get a renewal in this time.
+            WaitHandle.WaitAny(new WaitHandle[] { StopEvent }, new TimeSpan(0,0,20));
             return 0;
         }
     }
