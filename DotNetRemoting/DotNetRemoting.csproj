@@ -53,12 +53,23 @@
     <Compile Include="ServiceController\ServiceController.cs" />
     <Compile Include="ServiceController\ServiceControlStart.cs" />
     <Compile Include="ServiceController\ServiceControlStop.cs" />
+    <Compile Include="Shared\RemotingObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <!-- ContentWithTargetPath was found online. It is not generally available from
+      the Visual Studio UI. -->
+    <ContentWithTargetPath Include="Server\server.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>server.config</TargetPath>
+    </ContentWithTargetPath>
+    <!-- ContentWithTargetPath was found online. It is not generally available from
+      the Visual Studio UI. -->
+    <ContentWithTargetPath Include="Client\client.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>client.config</TargetPath>
+    </ContentWithTargetPath>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
