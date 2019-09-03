@@ -19,12 +19,12 @@ namespace DotNetRemoting.Client
 
         private static int ClientMain(string[] args)
         {
-            //WaitHandle.WaitAny(new WaitHandle[] { _stopEvent });
             var configFilename = Path.Combine(Path.GetDirectoryName(typeof(ClientService).Assembly.Location) ?? throw new InvalidOperationException(), "client.config");
             RemotingConfiguration.Configure(configFilename, false);
             var x = ChannelServices.RegisteredChannels;
             var y = RemotingConfiguration.GetRegisteredWellKnownClientTypes();
             var remotingObject = new RemotingObject();
+            Console.WriteLine($"Remoting object text = {remotingObject.Text}");
             return 0;
         }
     }
